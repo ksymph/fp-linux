@@ -1,0 +1,313 @@
+{
+  "imageFolderPath": "Data/Images",
+  "logoFolderPath": "Data/Logos",
+  "playlistFolderPath": "Data/Playlists",
+  "jsonFolderPath": "Data",
+  "htdocsFolderPath": "Legacy/htdocs",
+  "platformFolderPath": "Data/Platforms",
+  "themeFolderPath": "Data/Themes",
+  "logoSetsFolderPath": "Data/LogoSets",
+  "metaEditsFolderPath": "Data/MetaEdits",
+  "extensionsPath": "Data/Extensions",
+  "dataPacksFolderPath": "Data/Games",
+  "browsePageGameScale": 0.503,
+  "browsePageShowExtreme": false,
+  "enableEditing": false,
+  "fallbackLanguage": "en",
+  "currentLanguage": "<auto>",
+  "browsePageLayout": 1,
+  "browsePageShowLeftSidebar": true,
+  "browsePageShowRightSidebar": true,
+  "browsePageLeftSidebarWidth": 392,
+  "browsePageRightSidebarWidth": 445,
+  "curatePageLeftSidebarWidth": 308,
+  "showDeveloperTab": true,
+  "currentTheme": "Metal",
+  "currentLogoSet": "",
+  "lastSelectedLibrary": "arcade",
+  "gamesOrderBy": "dateAdded",
+  "gamesOrder": "ASC",
+  "server": "PHP Infinity Router",
+  "curateServer": "Apache Ultimate Webserver",
+  "defaultLibrary": "arcade",
+  "mainWindow": {
+    "x": -160,
+    "y": 112,
+    "width": 1920,
+    "height": 1050,
+    "maximized": true
+  },
+  "saveImportedCurations": false,
+  "keepArchiveKey": false,
+  "symlinkCurationContent": true,
+  "onDemandImages": true,
+  "onDemandBaseUrl": "https://infinity.flashpointarchive.org/images/",
+  "browserModeProxy": "localhost:22500",
+  "showLogSource": {},
+  "showLogLevel": {
+    "0": false,
+    "1": false,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+  },
+  "excludedRandomLibraries": [],
+  "appPathOverrides": [
+    {
+      "path": "FPSoftware\\Basilisk-Portable\\Basilisk-Portable.exe",
+      "override": "FPSoftware\\fpnavigator-portable\\FPNavigator.exe",
+      "enabled": true
+    }
+  ],
+  "tagFilters": [
+    {
+      "name": "Pornography",
+      "description": "For material related to sexual conduct, excluding the more unusual or disturbing titles.",
+      "enabled": false,
+      "tags": [
+        "Anal",
+        "Anal Insertion",
+        "Cartoon Porn",
+        "Adult",
+        "Anilingus",
+        "Fingering",
+        "Oral",
+        "Sexual Content",
+        "Cunnilingus",
+        "Fellatio",
+        "Footjob",
+        "Handjob",
+        "Interspecies",
+        "Masturbation",
+        "Paizuri",
+        "Sex Toys",
+        "Tentacles",
+        "Touching",
+        "Tribadism",
+        "Vaginal",
+        "Vaginal Insertion",
+        "Futanari",
+        "Male Futanari",
+        "Gynomorph",
+        "Andromorph",
+        "Intersex",
+        "Porn",
+	      "Fisting",
+        "Hentai",
+        "Group",
+        "Solo",
+        "Frottage",
+        "Multiple Penises",
+        "Ambiguous Penetration",
+        "Self Oral",
+        "Sex Simulator",
+        "Undressing"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": true
+    },
+	{
+      "name": "Fetishes",
+      "description": "For works that feature fetishes.",
+      "enabled": false,
+      "tags": [
+        "Age Regression",
+        "Asphyxiophilia",
+        "BDSM",
+        "Bestiality",
+        "Bimbofication",
+        "Breast Milking",
+        "Cannibalism",
+        "Enema",
+        "Expansion",
+        "Flatulence",
+        "Gloryhole",
+        "Hypnosis",
+        "Incest",
+        "Interspecies",
+        "Infantilism",
+        "Inflation",
+        "Kabeshiri",
+        "Macrophilia",
+        "Muscle Growth",
+        "Necrophilia",
+        "Obesity",
+        "Oviposition",
+        "Podophilia",
+        "Popping",
+        "Pregnancy",
+        "Quicksand",
+        "Scat",
+        "Selfcest",
+        "Spanking",
+        "Tickling",
+        "Transformation",
+        "Urination",
+        "Vomit",
+        "Vore",
+        "Weight Gain",
+        "Gachimuchi"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": true
+    },
+    {
+      "name": "Violence",
+      "description": "For over the top gore and violence.",
+      "enabled": false,
+      "tags": [
+        "Gore",
+        "Strong Violence",
+        "Strong Language"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": true
+    },
+    {
+      "name": "Seizure Warning",
+      "description": "For entries that contain flashing lights or other complex patterns which may induce seizures.",
+      "enabled": false,
+      "tags": [
+        "Seizure Warning"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": false
+    },
+    {
+      "name": "Bigotry",
+      "description": "For entries that contain prejudice against any group.",
+      "enabled": false,
+      "tags": [
+        "Homophobia",
+        "Stereotyping",
+        "Racism",
+        "Transphobia"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": true
+    },
+    {
+      "name": "Pornography Extreme",
+      "description": "For sexual content that may not be comfortable for 99% of mature users.",
+      "enabled": true,
+      "tags": [
+        "Bestiality",
+        "Necrophilia",
+        "Sexual Violence"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": true
+    },
+    {
+      "name": "Otherwise Mature Topics",
+      "description": "Topics that don't fit into the above filters but aren't entirely appropriate for younger children.",
+      "enabled": false,
+      "tags": [
+        "Drugs",
+        "Reproductive Health",
+        "Addiction",
+        "Heavy Themes",
+        "Suicide",
+        "Nudity",
+        "Moderate Language",
+        "Sexual Harassment"
+      ],
+      "categories": [],
+      "childFilters": [],
+      "extreme": false
+    }
+  ],
+  "tagFiltersInCurate": false,
+  "nativePlatforms": [],
+  "disableExtremeGames": false,
+  "showBrokenGames": true,
+  "minimizedHomePageBoxes": [],
+  "hideExtremeScreenshots": true,
+  "updateFeedUrl": "https://flashpointarchive.org/update_feed.txt",
+  "fancyAnimations": true,
+  "searchLimit": 0,
+  "onlineManual": "https://flashpointproject.github.io/manual/",
+  "offlineManual": "",
+  "groups": [],
+  "shortcuts": {
+    "curate": {
+      "prev": [
+        "ctrl+arrowup",
+        "cmd+arrowup"
+      ],
+      "next": [
+        "ctrl+arrowdown",
+        "cmd+arrowdown"
+      ],
+      "load": [
+        "ctrl+o",
+        "cmd+o"
+      ],
+      "newCur": [
+        "ctrl+n",
+        "cmd+n"
+      ],
+      "deleteCurs": [
+        "ctrl+delete",
+        "cmd+delete"
+      ],
+      "exportCurs": [
+        "ctrl+s",
+        "cmd+s"
+      ],
+      "exportDataPacks": [
+        "ctrl+shift+s",
+        "cmd+shift+s"
+      ],
+      "importCurs": [
+        "ctrl+i",
+        "cmd+i"
+      ],
+      "refresh": [
+        "ctrl+r",
+        "cmd+r"
+      ],
+      "run": [
+        "ctrl+t",
+        "cmd+t"
+      ],
+      "runMad4fp": [
+        "ctrl+shift+t",
+        "cmd+shift+t"
+      ]
+    }
+  },
+  "fpfssBaseUrl": "https://fpfss.flashpointarchive.org",
+  "gameDataSources": [
+    {
+      "type": "raw",
+      "name": "Flashpoint Project",
+      "arguments": [
+        "https://download.flashpointarchive.org/gib-roms/Games/"
+      ]
+    }
+  ],
+  "gameMetadataSources": [
+    {
+      "name": "Flashpoint Archive",
+      "baseUrl": "https://fpfss.flashpointarchive.org",
+      "games": {
+        "actualUpdateTime": "2025-11-21T11:15:45.600Z",
+        "latestDeleteTime": "1970-01-01",
+        "latestUpdateTime": "2025-11-21T08:14:14.142Z"
+      },
+      "tags": {
+        "actualUpdateTime": "2025-11-21T11:15:45.600Z",
+        "latestDeleteTime": "1970-01-01",
+        "latestUpdateTime": "2025-11-20T15:07:20.315Z"
+      }
+    }
+  ]
+}
