@@ -225,7 +225,9 @@
     }
   ],
   "tagFiltersInCurate": false,
-  "nativePlatforms": [],
+  "nativePlatforms": [
+    "Flash"
+  ],
   "disableExtremeGames": false,
   "showBrokenGames": true,
   "minimizedHomePageBoxes": [],
