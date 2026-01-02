@@ -1,0 +1,54 @@
+{
+  "daemon": [
+    {
+      "arguments": [],
+      "filename": "./FlashpointGameServer",
+      "kill": true,
+      "name": "Game Server",
+      "path": "Server"
+    }
+  ],
+  "server": [
+    {
+      "arguments": [
+        "-S",
+        "127.0.0.1:22600",
+        "router.php"
+      ],
+      "filename": "php",
+      "kill": true,
+      "name": "PHP Infinity Router",
+      "aliases": ["apache", "php-router"],
+      "path": "Legacy"
+    },
+    {
+      "arguments": [
+        "-S",
+        "127.0.0.1:22600",
+        "router_mad4fp.php"
+      ],
+      "filename": "php",
+      "kill": true,
+      "name": "PHP Infinity Router (MAD4FP)",
+      "aliases": ["php-router-mad4fp"],
+      "path": "Legacy",
+      "mad4fp": true
+    },
+    {
+      "arguments": [
+        "-S",
+        "127.0.0.1:22600",
+        "router_wayback.php"
+      ],
+      "filename": "php",
+      "kill": true,
+      "name": "Wayback Download Mode",
+      "aliases": [],
+      "path": "Legacy",
+      "mad4fp": true
+    }
+  ],
+  "start": [],
+  "stop": [],
+  "watch": []
+}
