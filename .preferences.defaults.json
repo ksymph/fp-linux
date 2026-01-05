@@ -55,8 +55,8 @@
   "excludedRandomLibraries": [],
   "appPathOverrides": [
     {
-      "path": "FPSoftware\\Basilisk-Portable\\Basilisk-Portable.exe",
-      "override": "FPSoftware\\fpnavigator-portable\\FPNavigator.exe",
+      "path": "FPSoftware\\fpnavigator-portable\\FPNavigator.exe",
+      "override": "FPSoftware\\flashpointnavigator\\flashpointnavigator",
       "enabled": true
     }
   ],
