@@ -1,7 +1,7 @@
 {
   "execs": [
     {
-      "linux": "FPSoftware/Flash/flash32.sh",
+      "linux": "FPSoftware/Flash/flash32",
       "win32": "FPSoftware\\Flash\\flashplayer_32_sa.exe"
     }
   ]
