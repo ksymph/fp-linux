@@ -56,7 +56,7 @@
   "appPathOverrides": [
     {
       "path": "FPSoftware\\fpnavigator-portable\\FPNavigator.exe",
-      "override": "FPSoftware\\flashpointnavigator\\flashpointnavigator",
+      "override": "FPSoftware\\flashpointnavigator\\start-fpnavigator.sh",
       "enabled": true
     }
   ],
