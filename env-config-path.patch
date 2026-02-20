@@ -1,0 +1,85 @@
+--- a/src/back/ConfigFile.ts
++++ b/src/back/ConfigFile.ts
+@@ -4,62 +4,70 @@
+ import * as fs from 'fs';
+ 
+ export namespace ConfigFile {
+-  export function readFile(filePath: string, onError?: (error: string) => void): Promise<AppConfigData> {
++  function getEffectivePath(originalPath: string): string {
++    const envPath = process.env.FLASHPOINT_CONFIG_PATH;
++    return (envPath && envPath.trim() !== '') ? envPath : originalPath;
++  }
++
++  export function readFile(originalPath: string, onError?: (error: string) => void): Promise<AppConfigData> {
+     return new Promise((resolve, reject) => {
+-      readJsonFile(filePath, 'utf8')
++      readJsonFile(getEffectivePath(originalPath), 'utf8')
+       .then(json => resolve(parse(json, onError)))
+       .catch(reject);
+     });
+   }
+ 
+-  export function readFileSync(filePath: string, onError?: (error: string) => void): AppConfigData {
+-    return parse(readJsonFileSync(filePath), onError);
++  export function readFileSync(originalPath: string, onError?: (error: string) => void): AppConfigData {
++    return parse(readJsonFileSync(getEffectivePath(originalPath)), onError);
+   }
+ 
+-  export async function readOrCreateFile(filePath: string, onError?: (error: string) => void): Promise<AppConfigData> {
++  export async function readOrCreateFile(originalPath: string, onError?: (error: string) => void): Promise<AppConfigData> {
++    const effectivePath = getEffectivePath(originalPath);
+     let error: Error | undefined;
+     let data: AppConfigData | undefined;
+ 
+     try {
+-      data = await readFile(filePath, onError);
++      data = await readFile(effectivePath, onError);
+     } catch (e: any) {
+       error = e;
+     }
+ 
+     if (error || !data) {
+       data = deepCopy(getDefaultConfigData(process.platform));
+-      saveFile(filePath, data).catch(() => console.log('Failed to save default config file!'));
++      saveFile(effectivePath, data).catch(() => console.log('Failed to save default config file!'));
+     }
+ 
+     return data;
+   }
+ 
+-  export function readOrCreateFileSync(filePath: string, onError?: (error: string) => void): AppConfigData {
++  export function readOrCreateFileSync(originalPath: string, onError?: (error: string) => void): AppConfigData {
++    const effectivePath = getEffectivePath(originalPath);
+     let error: Error | undefined;
+     let data: AppConfigData | undefined;
+ 
+     try {
+-      data = readFileSync(filePath, onError);
++      data = readFileSync(effectivePath, onError);
+     } catch (e: any) {
+       error = e;
+     }
+ 
+     if (error || !data) {
+       data = deepCopy(getDefaultConfigData(process.platform));
+-      saveFile(filePath, data).catch(() => console.log('Failed to save default config file!'));
++      saveFile(effectivePath, data).catch(() => console.log('Failed to save default config file!'));
+     }
+ 
+     return data;
+   }
+ 
+-  export function saveFile(filePath: string, data: AppConfigData): Promise<void> {
++  export function saveFile(originalPath: string, data: AppConfigData): Promise<void> {
++    const effectivePath = getEffectivePath(originalPath);
+     return new Promise((resolve, reject) => {
+       // Convert config to json string
+       const json: string = stringifyJsonDataFile(data);
+       // Save the config file
+-      fs.writeFile(filePath, json, function(error) {
++      fs.writeFile(effectivePath, json, function(error) {
+         if (error) { return reject(error); }
+         else       { return resolve();     }
+       });
+     });
+   }
