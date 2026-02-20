@@ -1,178 +1,66 @@
-app-id: org.flashpointarchive.infinity
-runtime: org.freedesktop.Platform
-runtime-version: '24.08'
-sdk: org.freedesktop.Sdk
-base: org.electronjs.Electron2.BaseApp
-base-version: '24.08'
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node24
-  - org.freedesktop.Sdk.Extension.php83
-  - org.freedesktop.Sdk.Extension.golang
-command: flashpoint-wrapper.sh
+#!/bin/sh
+# Wrapper for Flashpoint Infinity Flatpak
 
-finish-args:
-  - --socket=x11
-  - --share=ipc
-  - --device=dri
-  - --share=network
+set -e
 
-modules:
-  # Add GTK2 via shared-modules
-  - gtk2/gtk2.json
+# Writable data directory (persisted via --persist=data)
+DATA_DIR="${XDG_DATA_HOME:-$HOME/.var/app/org.flashpointarchive.infinity/data}"
+mkdir -p "$DATA_DIR"
 
-  # Launcher module (unchanged)
-  - name: launcher
-    buildsystem: simple
-    build-options:
-      append-path: /usr/lib/sdk/node24/bin
-      env:
-        npm_config_cache: /run/build/launcher/npm-cache
-      build-args:
-        - --share=network
-    build-commands:
-      - patch -p1 < env-config-path.patch
-      - npm install
-      - npm run build
-      - mkdir -p /app/launcher
-      - cp -r . /app/launcher
-    sources:
-      - type: git
-        url: https://github.com/FlashpointProject/launcher.git
-        branch: develop
-      - type: file
-        path: env-config-path.patch
+# Set environment variable to redirect config.json to the data directory
+export FLASHPOINT_CONFIG_PATH="$DATA_DIR/config.json"
 
-  # fp-linux module – now using local source and selective copy
-  - name: fp-linux
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/share/fp-linux
-      - cp .preferences.defaults.json /app/share/fp-linux/
-      - cp execs.json /app/share/fp-linux/
-      - cp services.json /app/share/fp-linux/
-      - cp flash32 /app/share/fp-linux/
-      - cp libflashplayer.so /app/share/fp-linux/
-      - cp mozilla.cfg /app/share/fp-linux/
-      - cp start-fpnavigator.sh /app/share/fp-linux/
-      # Copy any additional files (e.g., README) if present
-      - cp README* /app/share/fp-linux/ 2>/dev/null || true
-    sources:
-      - type: dir
-        path: .
+# ----- Write launcher config.json (only if it doesn't exist) -----
+if [ ! -f "$DATA_DIR/config.json" ]; then
+    cat > "$DATA_DIR/config.json" <<EOF
+{
+  "flashpointPath": "$DATA_DIR",
+  "useCustomTitlebar": false,
+  "startServer": true,
+  "backPortMin": 12001,
+  "backPortMax": 12100,
+  "imagesPortMin": 12101,
+  "imagesPortMax": 12200,
+  "logsBaseUrl": "https://logs.unstable.life/",
+  "updatesEnabled": true,
+  "gotdUrl": "https://download.unstable.life/gotd.json",
+  "gotdShowAll": false,
+  "middlewareOverridePath": "Legacy/middleware_overrides/"
+}
+EOF
+fi
 
-  # Gameserver module (unchanged)
-  - name: gameserver
-    buildsystem: simple
-    build-options:
-      append-path: /usr/lib/sdk/golang/bin
-      env:
-        GOPATH: /run/build/gameserver/go
-      build-args:
-        - --share=network
-    build-commands:
-      - go mod download
-      - go build -o FlashpointGameServer
-      - install -Dm755 FlashpointGameServer /app/share/gameserver/FlashpointGameServer
-      - install -Dm644 proxySettings.json /app/share/gameserver/proxySettings.json
-      - chmod -R u+w /run/build/gameserver/go
-    sources:
-      - type: git
-        url: https://github.com/FlashpointProject/FlashpointGameServer.git
-        disable-submodules: false
-        branch: main
+cp -rf /app/share/component "$DATA_DIR" 2>/dev/null || true
 
-  # Core components (unchanged)
-  - name: core-configuration
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/share/component/
-      - cp -r * /app/share/component/
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/core/configuration.git
-        branch: main
+# ----- Copy Linux‑specific files from fp-linux -----
+# .preferences.defaults.json (root of data dir)
+cp -f /app/share/fp-linux/.preferences.defaults.json "$DATA_DIR/" 2>/dev/null || true
 
-  - name: core-legacy-router
-    buildsystem: simple
-    build-commands:
-      - cp -r * /app/share/component/
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/core/legacy-router.git
-        branch: main
+# execs.json and services.json go into Data/
+mkdir -p "$DATA_DIR/Data"
+cp -f /app/share/fp-linux/execs.json "$DATA_DIR/Data/" 2>/dev/null || true
+cp -f /app/share/fp-linux/services.json "$DATA_DIR/Data/" 2>/dev/null || true
 
-  - name: core-credits
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/share/component/Data
-      - cp -r * /app/share/component/Data/
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/core/credits.git
-        branch: main
+# Flash Player executable
+mkdir -p "$DATA_DIR/FPSoftware/Flash"
+cp -f /app/share/fp-linux/flash32 "$DATA_DIR/FPSoftware/Flash/" 2>/dev/null || true
+chmod +x "$DATA_DIR/FPSoftware/Flash/flash32" 2>/dev/null || true
 
-  # Logo sets (unchanged)
-  - name: logo-oldschool
-    buildsystem: simple
-    build-commands:
-      - mkdir -p "/app/share/component/Data/LogoSets/Old School"
-      - cp -r * "/app/share/component/Data/LogoSets/Old School"
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/logo-sets/oldschool.git
+# Browser plugin and navigator config
+mkdir -p "$DATA_DIR/FPSoftware/BrowserPlugins/Flash"
+cp -f /app/share/fp-linux/libflashplayer.so "$DATA_DIR/FPSoftware/BrowserPlugins/Flash/" 2>/dev/null || true
 
-  - name: logo-adobeblue
-    buildsystem: simple
-    build-commands:
-      - mkdir -p "/app/share/component/Data/LogoSets/Adobe Blue"
-      - cp -r * "/app/share/component/Data/LogoSets/Adobe Blue"
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/logo-sets/adobeblue.git
+mkdir -p "$DATA_DIR/FPSoftware/flashpointnavigator"
+cp -f /app/share/fp-linux/mozilla.cfg "$DATA_DIR/FPSoftware/flashpointnavigator/" 2>/dev/null || true
+cp -f /app/share/fp-linux/start-fpnavigator.sh "$DATA_DIR/FPSoftware/flashpointnavigator/" 2>/dev/null || true
+chmod +x "$DATA_DIR/FPSoftware/flashpointnavigator/start-fpnavigator.sh" 2>/dev/null || true
 
-  - name: logo-macintosh
-    buildsystem: simple
-    build-commands:
-      - mkdir -p "/app/share/component/Data/LogoSets/Macintosh"
-      - cp -r * "/app/share/component/Data/LogoSets/Macintosh"
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/logo-sets/macintosh.git
+# ----- Copy game server binary and config -----
+mkdir -p "$DATA_DIR/Server"
+cp -f /app/share/gameserver/FlashpointGameServer "$DATA_DIR/Server/" 2>/dev/null || true
+cp -f /app/share/gameserver/proxySettings.json "$DATA_DIR/Server/" 2>/dev/null || true
+chmod +x "$DATA_DIR/Server/FlashpointGameServer" 2>/dev/null || true
 
-  - name: logo-millennium
-    buildsystem: simple
-    build-commands:
-      - mkdir -p "/app/share/component/Data/LogoSets/Millennium"
-      - cp -r * "/app/share/component/Data/LogoSets/Millennium"
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/logo-sets/millennium.git
-
-  - name: logo-default
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/share/component/Data/Logos
-      - cp -r * /app/share/component/Data/Logos
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/core/logos.git
-        branch: main
-
-  # Flash support (unchanged)
-  - name: flash-support
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/share/component/FPSoftware
-      - cp -r * /app/share/component/FPSoftware/
-    sources:
-      - type: git
-        url: https://gitlab.unstable.life/flashpoint/components/support-packs/flash.git
-
-  # Wrapper script (unchanged)
-  - name: wrapper
-    buildsystem: simple
-    build-commands:
-      - install -Dm755 flashpoint-wrapper.sh /app/bin/flashpoint-wrapper.sh
-    sources:
-      - type: file
-        path: flashpoint-wrapper.sh
+# ----- Launch the launcher from its own directory (required) -----
+cd /app/launcher
+exec zypak-wrapper /app/launcher/node_modules/electron/dist/electron /app/launcher "$@"
