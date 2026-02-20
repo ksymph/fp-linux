@@ -55,6 +55,12 @@ cp -f /app/share/fp-linux/mozilla.cfg "$DATA_DIR/FPSoftware/flashpointnavigator/
 cp -f /app/share/fp-linux/start-fpnavigator.sh "$DATA_DIR/FPSoftware/flashpointnavigator/" 2>/dev/null || true
 chmod +x "$DATA_DIR/FPSoftware/flashpointnavigator/start-fpnavigator.sh" 2>/dev/null || true
 
+# ----- Copy fpnavigator (browser) files -----
+if [ -d /app/share/fpnavigator ]; then
+    mkdir -p "$DATA_DIR/FPSoftware/flashpointnavigator"
+    cp -rf /app/share/fpnavigator/* "$DATA_DIR/FPSoftware/flashpointnavigator/" 2>/dev/null || true
+fi
+
 # ----- Copy game server binary and config -----
 mkdir -p "$DATA_DIR/Server"
 cp -f /app/share/gameserver/FlashpointGameServer "$DATA_DIR/Server/" 2>/dev/null || true

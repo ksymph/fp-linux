@@ -163,6 +163,17 @@ modules:
     sources:
       - type: git
         url: https://gitlab.unstable.life/flashpoint/components/support-packs/flash.git
+        
+  - name: fpnavigator
+    buildsystem: simple
+    sources:
+      - type: file
+        url: https://github.com/ksymph/fp-linux/releases/download/fpnavigator/fpnavigator.zip
+        sha256: 9296b957a17fdc75f9703c9ed478122f57ac859009b5ea10953073ab93c91ee0
+        dest-filename: fpnavigator.zip
+    build-commands:
+      - mkdir -p /app/share/fpnavigator
+      - unzip -q fpnavigator.zip -d /app/share/fpnavigator/
 
   - name: wrapper
     buildsystem: simple
